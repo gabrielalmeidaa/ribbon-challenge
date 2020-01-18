@@ -1,6 +1,8 @@
 class TrophyService
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-    def update_on_action(action)
+    include SuckerPunch::Job
+
+    def perform(action, user_id)
+        byebug
     end
 
 end
