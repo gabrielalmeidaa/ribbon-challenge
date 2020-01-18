@@ -1,6 +1,6 @@
 class GameActionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  after_action { |controller| controller.notify_trophy_service(params[:action], params[:user_id]) }
+  after_action { |controller| controller.notify_trophy_service(request.params) }
 
   def collected_coin
     @collected_coin = CollectedCoin.new(user_id: params[:user_id], value: params[:coin_value])
@@ -29,8 +29,8 @@ class GameActionsController < ApplicationController
     end
   end
 
-  def notify_trophy_service(action, user_id)
-    TrophyService.perform_async(action, user_id)
+  def notify_trophy_service(request)
+    TrophyService.perform_async(request)
   end
 
   private
