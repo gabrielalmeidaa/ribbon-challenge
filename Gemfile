@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '2.7.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
@@ -44,6 +44,7 @@ group :development do
   gem 'factory_bot_rails'
   gem 'mysql2'
   gem 'byebug'
+  gem 'irb'
 end
 
 group :test do
@@ -55,7 +56,7 @@ group :test do
   gem 'webdrivers'
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_bot_rails'
-  gem 'byebug'
+  gem 'irb'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
