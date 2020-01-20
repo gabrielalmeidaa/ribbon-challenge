@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe KilledMonster, type: :model do 
   
   describe "model validations" do
+    
     it "should not accept id from non-existent monster" do
       killed_monster = FactoryBot.build(:killed_monster, monster_id: 200)
       expect(killed_monster).to_not be_valid

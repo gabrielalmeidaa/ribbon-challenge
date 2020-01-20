@@ -1,32 +1,25 @@
 class GameActionsController < ApplicationController
+  before_action :set_user, only: [:collected_coin, :killed_monster, :player_death]
   skip_before_action :verify_authenticity_token
   after_action { |controller| controller.notify_trophy_service(request.params) }
 
-  def collected_coin
-    @collected_coin = CollectedCoin.new(user_id: params[:user_id], value: params[:coin_value])
-    if @collected_coin.save
-      render json: @collected_coin.to_json, status: :created
-    else
-      render json: @collected_coin.errors, status: :bad_request
-    end
+  def set_user
+    @user = User.find(params[:user_id])
   end
 
-  def monster_killed
-    @monster_killed = MonsterKilled.new(user_id: params[:user_id], monster_id: params[:monster_id])
-    if @monster_killed.save
-      render json: @monster_killed.to_json, status: :created
-    else
-      render json: @monster_killed.errors, status: :bad_request
-    end
+  def collected_coin
+    response = @user.add_coin(params[:coin_value].to_i)
+    render json: response[:object], status: response[:status]
+  end
+
+  def killed_monster
+    response = @user.add_monster_killed(params[:monster_id])
+    render json: response[:object], status: response[:status]
   end
 
   def player_death
-    @death = Death.new(user_id: params[:user_id], timestamp: params[:death_time])
-    if @death.save
-      render json: @death.to_json, status: :created
-    else
-      render json: @death.errors, status: :bad_request
-    end
+    response = @user.add_death(params[:timestamp])
+    render json: response[:object], status: response[:status]
   end
 
   def notify_trophy_service(request)
@@ -35,6 +28,7 @@ class GameActionsController < ApplicationController
 
   private
   def game_actions_params
-    params.permit(:user_id, :monster_id, :action, :death_time, :coin_value)
+    params.permit(:user_id, :monster_id, :action, :death_time, :coin_value, :timestamp)
   end
+
 end
