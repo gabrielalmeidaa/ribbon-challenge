@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_17_010416) do
+ActiveRecord::Schema.define(version: 2020_01_19_222859) do
 
   create_table "collected_coins", force: :cascade do |t|
     t.float "value"
@@ -35,11 +35,23 @@ ActiveRecord::Schema.define(version: 2020_01_17_010416) do
     t.string "name"
   end
 
+  create_table "trophies", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "level"
+    t.integer "trophy_type"
+    t.index ["user_id"], name: "index_trophies_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
+    t.float "total_coins"
+    t.float "bowsers_killed"
+    t.float "turtles_killed"
+    t.float "total_deaths"
   end
 
   add_foreign_key "collected_coins", "users"
   add_foreign_key "deaths", "users"
   add_foreign_key "killed_monsters", "monsters"
   add_foreign_key "killed_monsters", "users"
+  add_foreign_key "trophies", "users"
 end
